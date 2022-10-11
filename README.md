@@ -7,6 +7,16 @@ By Pedro Consuegra Mateo
 
 Después de cargar todas las tablas de datos de diamantes, las he unido en una de tal forma que tenga en un mismo DataFrame las diferentes propiedades de los diamantes.
 
+### EDA Conclussions
+
+
+Después de hacer un EDA se concluyó lo siguiente: 
+
+ - City no influye apenas en el precio.
+ - X Y y Z no influyen en el precio
+ - Carat, Cut, Color y Clarity son las variables que más influyen en el precio.
+ - Depth y Table influyen medianamente pero no tanto como las anteriores.
+
 ### Feature Transform and Creation
 
 #### Selected Features
@@ -27,9 +37,9 @@ Al principio he estado convirtiendo las variables categóricas cut, clarity y co
 
 ### Scaling
 
-**Robust** scaler ha sido el scaler que mejores resultados ha lanzado, aunque apenas variaba el RMSE usando MinMaxScaler o StandardScaler. 
+He utilizado un scaling manual logarítmico después de probar robust scaler, minmaxscaler y standard scaler. Esto mejoró las predicciones en el notebook local.
 
-## Best Model - XGBoost
+## Best Model - CatBoost
 
 Los modelos usados han sido:
 
@@ -40,11 +50,15 @@ Los modelos usados han sido:
 - XGboost
 - CatBoost
 
-El modelo que mejores predicciones ha hecho ha sido XGBoost con unos hiperparámetros concretos, seguido muy de cerca por Randomforest.
-
-Estos hiperparámetros son: max_depth=5, gamma=0, learning_rate=0.3,  n_estimators=200, min_child_weight= 3, colsample_bytree=0.9
+El modelo que mejores predicciones ha hecho ha sido CatBoost con unos hiperparámetros concretos, seguido muy de cerca por XGBoost.
 
 Para obtenerlos he usado GridSearch haciendo varias pruebas para cada hiperparámetro con el fin de que no lleve mucho tiempo.
+
+Este modelo tiene como resultado 476 RMSE con todos los diamantes y 528 en Kaggle public.
+
+El segundo modelo elegido tiene como resultado un RMSE de 514 y 528 en Kaggle.
+
+Por tanto, tiene sentido elegir el que tiene error 476.
 
 
 ## Analysis
@@ -56,3 +70,5 @@ Como feature nueva he combinado columnas numéricas que tienen que ver con las m
 A la hora de elegir el modelo he probado con los modelos anteriormente mencionados con los hiperparámetros por defecto. Una vez que he visto que Randomforest y XGBoost son los mejores, he calculado valores óptimos con RandomizedSearchCV y GridSearchCV. El mejor ha sido XGBoost.
 
 Usar label encoding en lugar de One Hot Encoding mejoró considerablemente las predicciones puesto que las variables categóricas definen qué diamante es mejor que otro.
+
+Por último, el scaling con logaritmos parece dar mejor resultado en local aunque en kaggle no parece tener efecto. Este fue el último cambio que hice.
